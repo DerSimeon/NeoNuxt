@@ -1,6 +1,6 @@
 {
   "name": "neonuxt",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Nuxt module to add Neo4j support",
   "repository": "DerSimeon/NeoNuxt",
   "license": "MIT",
