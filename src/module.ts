@@ -1,4 +1,4 @@
-import { addPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
+import { addServerImportsDir, addServerPlugin, createResolver, defineNuxtModule } from '@nuxt/kit'
 import defu from 'defu'
 import type { RuntimeConfig } from '@nuxt/schema'
 
@@ -28,7 +28,7 @@ export default defineNuxtModule<ModuleOptions>({
     const resolver = createResolver(import.meta.url)
     const config = _nuxt.options.runtimeConfig
 
-    config.n4j = defu<RuntimeConfig['n4j'], Omit<ModuleOptions, ''>[]>(_nuxt.options.runtimeConfig.n4j, {
+    config.n4j = defu<RuntimeConfig['n4j'], Omit<ModuleOptions, ''>[]>(config.n4j, {
       connectionString: _options.connectionString,
       auth: {
         preferredType: _options.auth.preferredType,
@@ -37,7 +37,8 @@ export default defineNuxtModule<ModuleOptions>({
       },
     })
 
-    // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin(resolver.resolve('./runtime/plugin'))
+    addServerImportsDir(resolver.resolve('./runtime/server/utils'))
+
+    addServerPlugin(resolver.resolve('./runtime/server/plugins/NeoPlugin'))
   },
 })
